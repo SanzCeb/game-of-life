@@ -18,101 +18,56 @@ class NeighborsGenerator {
     }
 
     private static Cell getEastCell(Cell[][] universe, int row, int column) {
-        int eastColumn;
-
-        if (column == universe.length - 1) {
-            eastColumn = 0;
-        } else {
-            eastColumn = column + 1;
-        }
-
+        int eastColumn = endBorder(universe.length, column);
         return universe[row][eastColumn];
     }
 
     private static Cell getSWCell(Cell[][] universe, int row, int column) {
-        int southRow;
-        int westColumn = westColumn(universe.length, column);
-
-        if (row == universe.length - 1) {
-            southRow = 0;
-        } else {
-            southRow = row + 1;
-        }
-
+        int southRow = endBorder(universe.length, row);
+        int westColumn = beginBorder(universe.length, column);
         return universe[southRow][westColumn];
     }
 
     private static Cell getSouthCell(Cell[][] universe, int row, int column) {
-        int southRow;
-
-        if (row == universe.length - 1) {
-            southRow = 0;
-        } else {
-            southRow = row + 1;
-        }
-
+        int southRow = endBorder(universe.length, row);
         return universe[southRow][column];
     }
 
     private static Cell getSECell(Cell[][] universe, int row, int column) {
-        int southRow;
-        int eastColumn;
-
-        if (row == universe.length - 1) {
-            southRow = 0;
-        } else {
-            southRow = row + 1;
-        }
-
-        if (column == universe.length - 1) {
-            eastColumn = 0;
-        } else {
-            eastColumn = column + 1;
-        }
-
+        int southRow = endBorder(universe.length, row);
+        int eastColumn = endBorder(universe.length, column);
         return universe[southRow][eastColumn];
     }
 
     private static Cell getWestCell(Cell[][] universe, int row, int column) {
-        int westColumn = westColumn(universe.length, column);
+        int westColumn = beginBorder(universe.length, column);
         return universe[row][westColumn];
     }
 
     private static Cell getNorthCell(Cell[][] universe, int row, int column) {
-        int northRow = northRow(universe.length, row);
+        int northRow = beginBorder(universe.length, row);
         return universe[northRow][column];
     }
 
     private static Cell getNECell(Cell[][] universe, int row, int column) {
-        int northRow = northRow(universe.length, row);
-        int eastColumn;
-
-        if (column == universe.length - 1) {
-            eastColumn = 0;
-        } else {
-            eastColumn = column + 1;
-        }
+        int northRow = beginBorder(universe.length, row);
+        int eastColumn = endBorder(universe.length, column);
 
         return universe[northRow][eastColumn];
     }
 
     private static Cell getNWCell(Cell[][] universe, int row, int column) {
-        int northRow = northRow(universe.length, row);
-        int westColumn = westColumn(universe.length, column);
-
+        int northRow = beginBorder(universe.length, row);
+        int westColumn = beginBorder(universe.length, column);
         return universe[northRow][westColumn];
     }
 
-    private static int northRow(int universeSize, int row) {
-        var northRow = row == 0 ? universeSize  : row;
-        return northRow - 1;
+    private static int beginBorder(int universeSize, int axis) {
+        int beginBorder = axis == 0 ? universeSize : axis;
+        return beginBorder - 1;
     }
 
-    private static int westColumn(int universeSize, int column) {
-        return adjacentPosition(column == 0, universeSize , column);
-    }
-
-    private static int adjacentPosition(boolean border, int universeSize, int position) {
-        return border ? universeSize - 1 : position;
+    private static int endBorder(int universeSize, int axis) {
+        return axis == universeSize - 1 ? 0 : axis + 1;
     }
 }

@@ -9,8 +9,8 @@ public class Universe {
     private Cell[][] universe;
     private final UniverseGenerator generator;
 
-    public Universe(int universeSize, long randomSeed) {
-        this.generator = new UniverseGenerator(randomSeed, universeSize);
+    public Universe(int universeSize) {
+        this.generator = new UniverseGenerator(universeSize);
         this.universe = generator.createUniverse();
     }
 
@@ -24,6 +24,13 @@ public class Universe {
                         .map(Cell::getRepresentation)
                         .collect(Collectors.joining()))
                 .collect(Collectors.joining(System.lineSeparator()));
+    }
+
+    public long aliveCount() {
+        return Arrays.stream(universe)
+            .map(Arrays::stream)
+            .flatMap(row -> row.filter(Cell::isAlive))
+            .count();
     }
 
 }

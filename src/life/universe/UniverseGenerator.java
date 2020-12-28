@@ -9,13 +9,12 @@ import java.util.stream.Stream;
 
 class UniverseGenerator {
 
-
     private final int numOfCells;
     private final int universeSize;
     private final Random randomizer;
 
-    UniverseGenerator(long randomSeed, int universeSize) {
-        this.randomizer = new Random(randomSeed);
+    UniverseGenerator(int universeSize) {
+        this.randomizer = new Random();
         this.universeSize = universeSize;
         this.numOfCells = universeSize * universeSize;
 
