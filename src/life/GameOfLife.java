@@ -1,18 +1,21 @@
 package life;
 
-import java.util.Scanner;
+import life.universe.Universe;
 
 public class GameOfLife {
-    public static void run () {
-        var scanner = new Scanner(System.in);
-        var universeSize = scanner.nextInt();
-        var randomSeed = scanner.nextInt();
-        Grid grid = new Grid(universeSize, randomSeed);
-        grid.generateUniverse();
-        printUniverse(grid);
+    public static void run (int universeSize, long randomSeed, int numGenerations) {
+        Universe universe = new Universe(universeSize, randomSeed);
+
+        while (numGenerations > 0) {
+            universe.evolve();
+            numGenerations--;
+        }
+
+        printUniverse(universe);
+
     }
 
-    private static void printUniverse(Grid grid) {
-        System.out.println(grid.getUniverse());
+    private static void printUniverse(Universe universe) {
+        System.out.println(universe.getUniverse());
     }
 }

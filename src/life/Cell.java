@@ -10,4 +10,9 @@ public class Cell {
     public String getRepresentation() {
         return alive ? "O" : " ";
     }
+
+    public boolean isAlive() {
+        return alive;
+    }
+
 }
