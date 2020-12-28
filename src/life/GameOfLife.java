@@ -1,52 +1,71 @@
 package life;
 
 import life.universe.Universe;
-import java.io.IOException;
 
-public class GameOfLife {
+import javax.swing.*;
+import java.awt.*;
 
-    public static void run (int universeSize, int numGenerations) {
-        Universe universe = new Universe(universeSize);
-        int generationNumber = 1;
-        while (numGenerations > 0) {
-            printGenerationNumber(generationNumber);
-            printAliveCount(universe);
-            printUniverse(universe);
-            sleepThread(600);
-            clearConsole();
-            universe.evolve();
-            numGenerations--;
-            generationNumber++;
+public class GameOfLife extends JFrame {
+
+    private final JLabel numGenerationLabel;
+    private final JLabel aliveCountLabel;
+    private final JPanel gridHolder;
+    private JPanel[][] cellsGrid;
+
+    public GameOfLife() {
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(400, 400);
+
+        this.numGenerationLabel = new JLabel("Generation #0");
+        this.aliveCountLabel = new JLabel("0");
+        numGenerationLabel.setName("GenerationLabel");
+        aliveCountLabel.setName("AliveLabel");
+
+
+        this.gridHolder = new JPanel();
+        gridHolder.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        add(numGenerationLabel);
+        add(aliveCountLabel);
+        add(gridHolder);
+        setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+        setVisible(true);
+    }
+
+    private void initCellsGrid(int universeSize) {
+        cellsGrid = new JPanel[universeSize][universeSize];
+        gridHolder.setLayout(new GridLayout(universeSize, universeSize, 0, 0));
+        for (int i = 0; i < universeSize; i++) {
+            for (int j = 0; j < universeSize; j++) {
+                cellsGrid[i][j] = new JPanel();
+                cellsGrid[i][j].setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+                gridHolder.add(cellsGrid[i][j]);
+            }
         }
-
     }
 
-    private static void printAliveCount(Universe universe) {
-        System.out.printf("Alive: %d%n%n", universe.aliveCount());
+    public void setGenerationCount(int numGeneration) {
+        this.numGenerationLabel.setText(String.format("Generation #%d", numGeneration));
     }
 
-    private static void printGenerationNumber(int generationNumber) {
-        System.out.printf("Generation: #%d%n", generationNumber);
-
+    public void setAliveCount(long aliveCount) {
+        this.aliveCountLabel.setText(String.format("Alive: %d", aliveCount));
     }
 
-    private static void printUniverse(Universe universe) {
-        System.out.println(universe.getUniverse());
+    public JPanel getSquare(int i, int j) {
+        return cellsGrid[i][j];
     }
 
-    private static void clearConsole() {
-        try {
-            if (System.getProperty("os.name").contains("Windows")) {
-                new ProcessBuilder("cmd", "/c", "cls")
-                        .inheritIO()
-                        .start()
-                        .waitFor();
-            }
-            else {
-                Runtime.getRuntime().exec("clear");
-            }
-        } catch (IOException | InterruptedException exception) {
-            exception.printStackTrace();
+    public static void main (String[] args) {
+        var universeSize = 20;
+        Universe universe = new Universe(universeSize);
+        GameOfLife gui = new GameOfLife();
+        gui.initCellsGrid(universeSize);
+        var controller = new GameOfLifeController(universe, gui);
+        while (true) {
+            controller.paintUniverse();
+            controller.evolveUniverse();
+            sleepThread(500);
         }
     }
 

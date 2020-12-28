@@ -3,27 +3,26 @@ package life.universe;
 import life.Cell;
 
 import java.util.Arrays;
-import java.util.stream.Collectors;
 
 public class Universe {
     private Cell[][] universe;
     private final UniverseGenerator generator;
+    private int numGeneration;
 
     public Universe(int universeSize) {
         this.generator = new UniverseGenerator(universeSize);
         this.universe = generator.createUniverse();
+        this.numGeneration = 1;
     }
 
     public void evolve() {
+
         universe = generator.evolveUniverse(universe);
+        numGeneration++;
     }
 
-    public String getUniverse() {
-        return Arrays.stream(universe)
-                .map(cellsRow -> Arrays.stream(cellsRow)
-                        .map(Cell::getRepresentation)
-                        .collect(Collectors.joining()))
-                .collect(Collectors.joining(System.lineSeparator()));
+    public Cell[][] getUniverse() {
+        return universe;
     }
 
     public long aliveCount() {
@@ -33,4 +32,7 @@ public class Universe {
             .count();
     }
 
+    public int getNumGeneration() {
+        return numGeneration;
+    }
 }
