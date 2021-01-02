@@ -1,7 +1,5 @@
 package life.universe;
 
-import life.Cell;
-
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Random;

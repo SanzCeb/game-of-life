@@ -1,7 +1,5 @@
 package life.universe;
 
-import life.Cell;
-
 class NeighborsGenerator {
 
     static Cell[] getNeighbors(Cell[][] universe, int row, int column) {

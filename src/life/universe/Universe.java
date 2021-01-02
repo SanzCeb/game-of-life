@@ -1,7 +1,5 @@
 package life.universe;
 
-import life.Cell;
-
 import java.util.Arrays;
 
 public class Universe {
@@ -16,13 +14,8 @@ public class Universe {
     }
 
     public void evolve() {
-
         universe = generator.evolveUniverse(universe);
         numGeneration++;
-    }
-
-    public Cell[][] getUniverse() {
-        return universe;
     }
 
     public long aliveCount() {
@@ -34,5 +27,9 @@ public class Universe {
 
     public int getNumGeneration() {
         return numGeneration;
+    }
+
+    public Cell[][] getUniverse() {
+        return universe;
     }
 }
